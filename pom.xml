@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	Copyright (c) 2010 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
+
+	This program is licensed to you under the Apache License Version 2.0,
+	and you may not use this file except in compliance with the Apache License Version 2.0.
+	You may obtain a copy of the Apache License Version 2.0 at http://www.apache.org/licenses/LICENSE-2.0.
+
+	Unless required by applicable law or agreed to in writing,
+	software distributed under the Apache License Version 2.0 is distributed on an
+	"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
+
+-->
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>net.stickycode.parent</groupId>
+		<artifactId>sticky-jar</artifactId>
+		<version>1.5</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.stickycode</groupId>
+	<artifactId>sticky-coercion</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>sticky-coercion</name>
+	<description>A simple coercion library for converting strings to objects</description>
+
+	<inceptionYear>2009</inceptionYear>
+	<dependencies>
+		<dependency>
+			<groupId>net.stickycode.composite</groupId>
+			<artifactId>sticky-composite-unittest</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.stickycode</groupId>
+			<artifactId>sticky-exception</artifactId>
+			<version>[1,2)</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>
