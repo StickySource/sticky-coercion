@@ -12,6 +12,8 @@
  */
 package net.stickycode.coercion;
 
+import java.net.URL;
+
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -44,6 +46,11 @@ public class EnumCoercionTest {
   @Test(expected=ValueCouldNotBeCoercedToTypeException.class)
   public void empty() {
     coercion().coerce(coercionTarget(ExampleEnum.class), "");
+  }
+
+  @Test(expected=EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere.class)
+  public void noValueOfMethod() {
+    coercion().coerce(coercionTarget(URL.class), "ug");
   }
 
   private EnumCoercion coercion() {

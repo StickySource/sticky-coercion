@@ -18,7 +18,7 @@ public class EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere
     extends AbstractFailedToCoerceValueException {
 
   public EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere(NoSuchMethodException e) {
-    super(e, "valueOf method with string para parameter's existence was validated but could not be found");
+    super(e, "valueOf method with string parameter's existence was validated but could not be found");
   }
 
 }

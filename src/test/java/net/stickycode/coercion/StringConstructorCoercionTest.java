@@ -37,6 +37,11 @@ public class StringConstructorCoercionTest {
     assertThat(coercion().coerce(coercionTarget(Float.class), "-10.5")).isEqualTo(-10.5f);
   }
 
+  @Test(expected=StringConstructorNotFoundEvenThoughWeVerifiedItWasThere.class)
+  public void noStringConstructor() {
+    coercion().coerce(coercionTarget(StringConstructorCoercion.class), "ug");
+  }
+
   private StringConstructorCoercion coercion() {
     return new StringConstructorCoercion();
   }
