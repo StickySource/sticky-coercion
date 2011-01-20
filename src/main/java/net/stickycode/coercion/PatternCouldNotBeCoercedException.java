@@ -15,10 +15,10 @@ package net.stickycode.coercion;
 import java.util.regex.PatternSyntaxException;
 
 @SuppressWarnings("serial")
-public class FailedToCoercePatternException
+public class PatternCouldNotBeCoercedException
     extends AbstractFailedToCoerceValueException {
 
-  public FailedToCoercePatternException(PatternSyntaxException e, String value) {
+  public PatternCouldNotBeCoercedException(PatternSyntaxException e, String value) {
     super(e, "Failed to parse '{}' as a regular expression", value);
   }
 

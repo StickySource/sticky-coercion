@@ -25,7 +25,7 @@ public class PatternCoercion
       return Pattern.compile(value);
     }
     catch (PatternSyntaxException e) {
-      throw new FailedToCoercePatternException(e, value);
+      throw new PatternCouldNotBeCoercedException(e, value);
     }
   }
 

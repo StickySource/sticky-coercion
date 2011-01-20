@@ -34,7 +34,7 @@ public class PatternCoercionTest {
     assertThat(coercion().coerce(null, ".*"));
   }
 
-  @Test(expected=FailedToCoercePatternException.class)
+  @Test(expected=PatternCouldNotBeCoercedException.class)
   public void failure() {
     assertThat(coercion().coerce(null, "("));
   }

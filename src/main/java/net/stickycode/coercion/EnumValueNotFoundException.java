@@ -16,10 +16,10 @@ import net.stickycode.exception.PermanentException;
 
 
 @SuppressWarnings("serial")
-public class ValueCouldNotBeCoercedToTypeException
+public class EnumValueNotFoundException
     extends PermanentException {
 
-  public ValueCouldNotBeCoercedToTypeException(Exception e, String value, Class<?> type) {
+  public EnumValueNotFoundException(Exception e, String value, Class<?> type) {
     super(e, "Failed to coerce '{}' to type '{}'", value, type.getName());
   }
 

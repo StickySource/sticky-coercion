@@ -30,7 +30,7 @@ public class EnumCoercion
       return factoryMethod.invoke(null, new Object[] {value});
     }
     catch (Exception e) {
-      throw new ValueCouldNotBeCoercedToTypeException(e, value, factoryMethod.getReturnType());
+      throw new EnumValueNotFoundException(e, value, factoryMethod.getReturnType());
     }
   }
 

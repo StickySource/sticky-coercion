@@ -38,12 +38,12 @@ public class EnumCoercionTest {
     assertThat(coercion().coerce(coercionTarget(ExampleEnum.class), "Two")).isEqualTo(ExampleEnum.Two);
   }
 
-  @Test(expected=ValueCouldNotBeCoercedToTypeException.class)
+  @Test(expected=EnumValueNotFoundException.class)
   public void invalid() {
     coercion().coerce(coercionTarget(ExampleEnum.class), "Other");
   }
 
-  @Test(expected=ValueCouldNotBeCoercedToTypeException.class)
+  @Test(expected=EnumValueNotFoundException.class)
   public void empty() {
     coercion().coerce(coercionTarget(ExampleEnum.class), "");
   }
