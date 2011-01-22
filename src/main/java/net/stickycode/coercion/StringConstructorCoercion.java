@@ -30,7 +30,7 @@ public class StringConstructorCoercion
       return c.newInstance(value);
     }
     catch (Exception e) {
-      throw new EnumValueNotFoundException(e, value, c.getDeclaringClass());
+      throw new StringConstructorValueParsingFailedException(e, value, c.getDeclaringClass());
     }
   }
 
