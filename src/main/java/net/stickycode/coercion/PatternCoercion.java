@@ -20,7 +20,7 @@ public class PatternCoercion
 
   @Override
   public Pattern coerce(CoercionTarget type, String value)
-      throws AbstractFailedToCoerceValueException {
+      throws PatternCouldNotBeCoercedException {
     try {
       return Pattern.compile(value);
     }
