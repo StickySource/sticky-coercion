@@ -12,37 +12,75 @@
  */
 package net.stickycode.coercion;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+public class StringCoercionTest
+    extends AbstractCoercionTest {
 
-public class StringCoercionTest {
+  List<String> list;
+  Set<String> set;
+  Queue<String> queue;
+  Collection<String> collection;
 
-  @Test
-  public void isApplicable() {
-    assertThat(stringCoercion().isApplicableTo(coercionTarget(String.class))).isTrue();
-    assertThat(stringCoercion().isApplicableTo(coercionTarget(Boolean.class))).isFalse();
+  @Override
+  protected StringCoercion coercion() {
+    return new StringCoercion();
+  }
+
+  protected Class<Boolean> getInapplicableType() {
+    return Boolean.class;
+  }
+
+  protected Class<?> getApplicableType() {
+    return String.class;
+  }
+
+  @Override
+  protected Class<?> getApplicableArrayType() {
+    return String[].class;
   }
 
   @Test
   public void coerce() {
-    assertThat(stringCoercion().coerce(null, "blah")).isEqualTo("blah");
-    assertThat(stringCoercion().coerce(null, "something")).isEqualTo("something");
-    assertThat(stringCoercion().coerce(null, "")).isEqualTo("");
+    assertThat(coercion().coerce(null, "blah")).isEqualTo("blah");
+    assertThat(coercion().coerce(null, "something")).isEqualTo("something");
+    assertThat(coercion().coerce(null, "")).isEqualTo("");
   }
 
-  private StringCoercion stringCoercion() {
-    return new StringCoercion();
+  @Override
+  protected String firstResult() {
+    return "a";
   }
 
-  private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionTarget() {
-      @Override
-      public Class<?> getType() {
-        return type;
-      }
-    };
+  protected String secondResult() {
+    return "kck";
+  }
+
+  @Override
+  protected String thirdResult() {
+    return "sfxs";
+  }
+
+  @Override
+  protected String thirdValue() {
+    return "sfxs";
+  }
+
+  @Override
+  protected String secondValue() {
+    return "kck";
+  }
+
+  @Override
+  protected String firstValue() {
+    return "a";
   }
 
 }

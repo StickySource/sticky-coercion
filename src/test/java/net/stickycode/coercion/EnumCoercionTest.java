@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
+ * Copyright (c) 2011 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved.
  *
  * This program is licensed to you under the Apache License Version 2.0,
  * and you may not use this file except in compliance with the Apache License Version 2.0.
@@ -13,57 +13,89 @@
 package net.stickycode.coercion;
 
 import java.net.URL;
+import java.util.Collection;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
 
 import org.junit.Test;
 
-import static org.fest.assertions.Assertions.assertThat;
+public class EnumCoercionTest
+    extends AbstractCoercionTest {
 
-
-public class EnumCoercionTest {
+  Set<ExampleEnum> set;
+  List<ExampleEnum> list;
+  Queue<ExampleEnum> queue;
+  Collection<ExampleEnum> collection;
 
   private enum ExampleEnum {
     One,
-    Two
+    Two,
+    Three
   }
 
-  @Test
-  public void isApplicable() {
-    assertThat(coercion().isApplicableTo(coercionTarget(ExampleEnum.class))).isTrue();
-    assertThat(coercion().isApplicableTo(coercionTarget(Boolean.class))).isFalse();
-  }
-
-  @Test
-  public void coerce() {
-    assertThat(coercion().coerce(coercionTarget(ExampleEnum.class), "One")).isEqualTo(ExampleEnum.One);
-    assertThat(coercion().coerce(coercionTarget(ExampleEnum.class), "Two")).isEqualTo(ExampleEnum.Two);
-  }
-
-  @Test(expected=EnumValueNotFoundException.class)
+  @Test(expected = EnumValueNotFoundException.class)
   public void invalid() {
-    coercion().coerce(coercionTarget(ExampleEnum.class), "Other");
+    coercion().coerce(coercionType(ExampleEnum.class), "Other");
   }
 
-  @Test(expected=EnumValueNotFoundException.class)
+  @Test(expected = EnumValueNotFoundException.class)
   public void empty() {
-    coercion().coerce(coercionTarget(ExampleEnum.class), "");
+    coercion().coerce(coercionType(ExampleEnum.class), "");
   }
 
-  @Test(expected=EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere.class)
+  @Test(expected = EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere.class)
   public void noValueOfMethod() {
-    coercion().coerce(coercionTarget(URL.class), "ug");
+    coercion().coerce(coercionType(URL.class), "ug");
   }
 
-  private EnumCoercion coercion() {
+  protected Coercion<?> coercion() {
     return new EnumCoercion();
   }
 
-  private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionTarget() {
-      @Override
-      public Class<?> getType() {
-        return type;
-      }
-    };
+  @Override
+  protected String firstValue() {
+    return "One";
+  }
+
+  @Override
+  protected String secondValue() {
+    return "Two";
+  }
+
+  @Override
+  protected String thirdValue() {
+    return "Three";
+  }
+
+  @Override
+  protected Object firstResult() {
+    return ExampleEnum.One;
+  }
+
+  @Override
+  protected Object secondResult() {
+    return ExampleEnum.Two;
+  }
+
+  @Override
+  protected Object thirdResult() {
+    return ExampleEnum.Three;
+  }
+
+  @Override
+  protected Class<?> getInapplicableType() {
+    return Boolean.class;
+  }
+
+  @Override
+  protected Class<?> getApplicableType() {
+    return ExampleEnum.class;
+  }
+
+  @Override
+  protected Class<?> getApplicableArrayType() {
+    return ExampleEnum[].class;
   }
 
 }
