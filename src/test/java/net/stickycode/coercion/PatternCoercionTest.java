@@ -18,7 +18,9 @@ import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-
+/**
+ * {@link Pattern} does not implement equals so the standard {@link AbstractCoercionTest} cannot be used
+ */
 public class PatternCoercionTest {
 
   @Test
@@ -34,19 +36,13 @@ public class PatternCoercionTest {
     assertThat(coercion().coerce(null, ".*"));
   }
 
-  @Test(expected=PatternCouldNotBeCoercedException.class)
+  @Test(expected = PatternCouldNotBeCoercedException.class)
   public void failure() {
     assertThat(coercion().coerce(null, "("));
   }
 
   private CoercionTarget coercionTarget() {
-    return new CoercionTarget() {
-
-      @Override
-      public Class<?> getType() {
-        return Pattern.class;
-      }
-    };
+    return new CoercionType(Pattern.class);
   }
 
   private PatternCoercion coercion() {
