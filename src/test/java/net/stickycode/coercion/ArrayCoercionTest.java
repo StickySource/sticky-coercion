@@ -62,13 +62,7 @@ public class ArrayCoercionTest {
   }
 
   private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionTarget() {
-
-      @Override
-      public Class<?> getType() {
-        return type;
-      }
-    };
+    return new CoercionType(type);
   }
 
   @SuppressWarnings("unchecked")
