@@ -32,7 +32,7 @@ public class ArrayCoercion
 
     String[] values = value.split(",");
     Object array = Array.newInstance(type.getType().getComponentType(), values.length);
-    CoercionTarget componentTarget = componentTarget(type);
+    CoercionTarget componentTarget = type.getComponentCoercionType();
     for (int i = 0; i < values.length; i++) {
       Array.set(array, i, componentCoercion.coerce(componentTarget, values[i]));
     }
@@ -41,14 +41,14 @@ public class ArrayCoercion
 
   @Override
   public boolean isApplicableTo(CoercionTarget target) {
-    if (!target.getType().isArray())
+    if (!target.isArray())
       return false;
 
     return findComponentCoercion(target) != null;
   }
 
   private Coercion<?> findComponentCoercion(CoercionTarget target) {
-    CoercionTarget t = componentTarget(target);
+    CoercionTarget t = target.getComponentCoercionType();
     for (Coercion<?> c : componentCoercions) {
       if (c.isApplicableTo(t))
         return c;
@@ -56,42 +56,4 @@ public class ArrayCoercion
 
     return null;
   }
-
-  private CoercionTarget componentTarget(final CoercionTarget target) {
-    final Class<?> componentType = resolve(target.getType().getComponentType());
-    CoercionTarget t = new CoercionTarget() {
-
-      @Override
-      public Class<?> getType() {
-        return componentType;
-      }
-    };
-    return t;
-  }
-
-  private Class<?> resolve(Class<?> componentType) {
-    if (!componentType.isPrimitive())
-      return componentType;
-
-    if (boolean.class.equals(componentType))
-      return Boolean.class;
-
-    if (int.class.equals(componentType))
-      return Integer.class;
-
-    if (float.class.equals(componentType))
-      return Float.class;
-
-    if (double.class.equals(componentType))
-      return Double.class;
-
-    if (byte.class.equals(componentType))
-      return Byte.class;
-
-    if (short.class.equals(componentType))
-      return Short.class;
-
-    throw new UnknownPrimitiveTypeException(componentType.getName());
-  }
-
 }

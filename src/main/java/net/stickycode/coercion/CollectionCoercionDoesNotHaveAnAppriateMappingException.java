@@ -12,16 +12,13 @@
  */
 package net.stickycode.coercion;
 
-import net.stickycode.exception.PermanentException;
-
 
 @SuppressWarnings("serial")
-public abstract class AbstractFailedToCoerceValueException
-    extends PermanentException {
+public class CollectionCoercionDoesNotHaveAnAppriateMappingException
+    extends RuntimeException {
 
-  public AbstractFailedToCoerceValueException(Throwable t, String message, Object... arguments) {
-    super(t, message, arguments);
+  public CollectionCoercionDoesNotHaveAnAppriateMappingException(Class<?> type) {
+    super("A mapping to a concrete collection implementation for " + type.getName() + " was not found");
   }
-
 
 }
