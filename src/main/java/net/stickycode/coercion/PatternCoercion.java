@@ -34,4 +34,9 @@ public class PatternCoercion
     return type.getType().isAssignableFrom(Pattern.class);
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
 }

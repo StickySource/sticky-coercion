@@ -56,4 +56,10 @@ public class ArrayCoercion
 
     return null;
   }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
 }

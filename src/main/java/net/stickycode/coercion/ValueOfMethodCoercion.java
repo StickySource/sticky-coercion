@@ -63,4 +63,10 @@ public class ValueOfMethodCoercion
     return null;
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
+
 }

@@ -106,4 +106,9 @@ public class CollectionCoercion
     return null;
   }
 
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
+
 }

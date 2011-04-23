@@ -14,8 +14,6 @@ package net.stickycode.coercion;
 
 import java.lang.reflect.Method;
 
-
-
 public class EnumCoercion
     implements Coercion<Object> {
 
@@ -27,7 +25,7 @@ public class EnumCoercion
 
   private Object getEnumValue(String value, Method factoryMethod) {
     try {
-      return factoryMethod.invoke(null, new Object[] {value});
+      return factoryMethod.invoke(null, new Object[] { value });
     }
     catch (Exception e) {
       throw new EnumValueNotFoundException(e, value, factoryMethod.getReturnType());
@@ -36,7 +34,7 @@ public class EnumCoercion
 
   private Method getValueOfMethod(CoercionTarget target) {
     try {
-      return target.getType().getMethod("valueOf", new Class[] {String.class});
+      return target.getType().getMethod("valueOf", new Class[] { String.class });
     }
     catch (NoSuchMethodException e) {
       throw new EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
@@ -46,6 +44,11 @@ public class EnumCoercion
   @Override
   public boolean isApplicableTo(CoercionTarget target) {
     return target.getType().isEnum();
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
   }
 
 }
