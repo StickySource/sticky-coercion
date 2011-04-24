@@ -12,6 +12,7 @@
  */
 package net.stickycode.coercion;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 
 import org.junit.Test;
@@ -20,6 +21,12 @@ import static org.fest.assertions.Assertions.assertThat;
 
 
 public class StringConstructorCoercionTest {
+
+  @Test
+  public void typetest() {
+    Type t = getClass();
+    assertThat(t).isEqualTo(getClass());
+  }
 
   @Test
   public void isApplicable() {

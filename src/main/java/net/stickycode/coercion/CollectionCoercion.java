@@ -24,11 +24,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class CollectionCoercion
     implements Coercion<Collection<?>> {
 
-  private final List<? extends Coercion<?>> componentCoercions;
+  private CoercionFinder coercionFinder;
 
-  public CollectionCoercion(List<? extends Coercion<?>> componentCoercions) {
+  public CollectionCoercion(CoercionFinder coercionFinder) {
     super();
-    this.componentCoercions = componentCoercions;
+    this.coercionFinder = coercionFinder;
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -97,13 +97,7 @@ public class CollectionCoercion
   }
 
   private Coercion<?> findComponentCoercion(CoercionTarget target) {
-    CoercionTarget t = target.getComponentCoercionType();
-    for (Coercion<?> c : componentCoercions) {
-      if (c.isApplicableTo(t))
-        return c;
-    }
-
-    return null;
+    return coercionFinder.find(target.getComponentCoercionType());
   }
 
   @Override

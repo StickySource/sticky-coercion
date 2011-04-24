@@ -16,6 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,8 +24,8 @@ import org.junit.rules.TestName;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-
 public class CollectionCoercionTest {
+
   @Rule
   public TestName testName = new TestName();
 
@@ -34,7 +35,7 @@ public class CollectionCoercionTest {
 
   @Test
   public void noCoercionForCollection() {
-    assertThat(coercion(new ArrayList<Coercion<?>>()).isApplicableTo(coercionTarget(Boolean.class))).isFalse();
+    assertThat(coercion(null).isApplicableTo(coercionTarget(Boolean.class))).isFalse();
   }
 
   @Test
@@ -42,9 +43,9 @@ public class CollectionCoercionTest {
     assertThat(coercion(booleanCoercion()).isApplicableTo(coercionTarget(Boolean.class))).isFalse();
   }
 
-  @Test(expected=CollectionCoercionDoesNotHaveAnAppriateMappingException.class)
+  @Test(expected = CoercionNotFoundException.class)
   public void abstractCollection() {
-    coercion(new ArrayList<Coercion<?>>()).coerce(componentCoercionType(), "");
+    coercion(null).coerce(componentCoercionType(), "");
   }
 
   @Test
@@ -52,18 +53,24 @@ public class CollectionCoercionTest {
     coercion(booleanCoercion()).coerce(componentCoercionType(), "");
   }
 
-  private ArrayList<Coercion<?>> booleanCoercion() {
-    ArrayList<Coercion<?>> componentCoercions = new ArrayList<Coercion<?>>();
-    componentCoercions.add(new ValueOfMethodCoercion());
-    return componentCoercions;
+  private Coercion<?> booleanCoercion() {
+    return new ValueOfMethodCoercion();
   }
 
   private CoercionTarget coercionTarget(Class<?> type) {
     return new CoercionType(type);
   }
 
-  private CollectionCoercion coercion(ArrayList<Coercion<?>> componentCoercions) {
-    return new CollectionCoercion(componentCoercions);
+  private CollectionCoercion coercion(final Coercion<?> componentCoercion) {
+    return new CollectionCoercion(new CoercionFinder() {
+      @Override
+      public Coercion<?> find(CoercionTarget target) throws CoercionNotFoundException {
+        if (componentCoercion == null)
+          throw new CoercionNotFoundException(target, Collections.<Coercion>emptySet());
+
+        return componentCoercion;
+      }
+    });
   }
 
   private CoercionTarget componentCoercionType() {
