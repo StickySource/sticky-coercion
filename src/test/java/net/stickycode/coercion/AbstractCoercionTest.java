@@ -141,7 +141,6 @@ public abstract class AbstractCoercionTest {
     return new CoercionType(field.getType(), (ParameterizedType) field.getGenericType());
   }
 
-  @SuppressWarnings("unchecked")
   private CollectionCoercion collectionCoercion() {
     return new CollectionCoercion(new CoercionFinder() {
 

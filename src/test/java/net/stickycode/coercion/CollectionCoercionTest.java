@@ -63,6 +63,7 @@ public class CollectionCoercionTest {
 
   private CollectionCoercion coercion(final Coercion<?> componentCoercion) {
     return new CollectionCoercion(new CoercionFinder() {
+      @SuppressWarnings("rawtypes")
       @Override
       public Coercion<?> find(CoercionTarget target) throws CoercionNotFoundException {
         if (componentCoercion == null)

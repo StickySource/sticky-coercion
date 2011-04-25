@@ -13,7 +13,6 @@
 package net.stickycode.coercion;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 
 public class EnumCoercion
     implements Coercion<Object> {

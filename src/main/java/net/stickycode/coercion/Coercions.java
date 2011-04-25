@@ -24,9 +24,16 @@ import net.stickycode.stereotype.StickyComponent;
 public class Coercions
     implements CoercionFinder {
 
+  /*
+   * XXX If you can figure out how to get guice to multibind to Set<Coercion<?>> then
+   * let me know and I'll put the <?> back in.
+   */
+
+  @SuppressWarnings("rawtypes")
   private List<Coercion> coercions = new ArrayList<Coercion>();
 
   @Inject
+  @SuppressWarnings("rawtypes")
   private Set<Coercion> extensions;
 
   public Coercions() {
@@ -54,6 +61,7 @@ public class Coercions
     throw new CoercionNotFoundException(target, getList());
   }
 
+  @SuppressWarnings("rawtypes")
   public List<Coercion> getList() {
     ArrayList<Coercion> all = new ArrayList<Coercion>();
     if (extensions != null)
