@@ -23,5 +23,9 @@ public class UnparseableUrlForWebServiceException
   public UnparseableUrlForWebServiceException(MalformedURLException e, String value) {
     super(e, "Failed to parse '{}'", value);
   }
+  
+  public UnparseableUrlForWebServiceException(String value) {
+    super("Cannot specify a blank url '{}'", value);
+  }
 
 }

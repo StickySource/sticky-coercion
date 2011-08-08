@@ -12,8 +12,11 @@
  */
 package net.stickycode.coercion.ws;
 
+import java.io.FileNotFoundException;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
@@ -29,39 +32,52 @@ public class WebServiceCoercion
 
   @Override
   public Object coerce(CoercionTarget type, String value) {
-    URL wsdlDocumentLocation = createurl(value);
+    URL wsdlDocumentLocation = createWsdlUrl(value);
     WebService annotation = type.getType().getAnnotation(WebService.class);
     String namespace = deriveNamespace(type.getType(), annotation);
-    String serviceName = deriveServiceName(annotation);
+    String serviceName = deriveServiceName(annotation, type.getType());
     try {
       Service service = Service.create(wsdlDocumentLocation, new QName(namespace, serviceName));
       return service.getPort(type.getType());
     }
-    catch(Throwable t) {
+    catch (Throwable t) {
       mapException(wsdlDocumentLocation, annotation, t);
       throw new CouldNotCreateServiceProxyException(t, wsdlDocumentLocation, annotation);
     }
   }
 
   private void mapException(URL wsdlDocumentLocation, WebService annotation, Throwable t) {
+    if (t.getCause() != null) {
+      if (t.getCause() instanceof UnknownHostException)
+        throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
+      
+      if (t.getCause() instanceof FileNotFoundException)
+        throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
+      
+      if (t.getCause() instanceof ConnectException)
+        throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
+    }
     if (t.getMessage() != null && t.getMessage().contains("Inaccessible")) {
       throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
     }
   }
 
-  private URL createurl(String value) {
+  private URL createWsdlUrl(String value) {
+    if (value.length() == 0)
+      throw new UnparseableUrlForWebServiceException(value);
+    
     try {
-      return new URL(value);
+      return new URL(value+ "?WSDL");
     }
     catch (MalformedURLException e) {
       throw new UnparseableUrlForWebServiceException(e, value);
     }
   }
 
-  private String deriveServiceName(WebService annotation) {
+  private String deriveServiceName(WebService annotation, Class<?> webServiceClass) {
     String serviceName = annotation.serviceName();
     if (serviceName.length() == 0)
-      return "TestWsService";
+      return webServiceClass.getSimpleName() + "Service";
 
     return serviceName;
   }

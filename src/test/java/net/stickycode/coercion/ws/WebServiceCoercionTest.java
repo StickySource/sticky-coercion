@@ -112,4 +112,9 @@ public class WebServiceCoercionTest {
     new WebServiceCoercion().coerce(new CoercionType(OtherWs.class), WS_URL);
   }
 
+  @Test(expected = CouldNotConnectToWebServiceException.class)
+  public void coerceWhere() {
+    new WebServiceCoercion().coerce(new CoercionType(OtherWs.class), "http://where");
+  }
+
 }
