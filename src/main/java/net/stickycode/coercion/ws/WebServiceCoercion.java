@@ -24,9 +24,10 @@ import javax.xml.ws.Service;
 
 import net.stickycode.coercion.Coercion;
 import net.stickycode.coercion.CoercionTarget;
+import net.stickycode.stereotype.StickyPlugin;
 import net.stickycode.stereotype.component.StickyMapper;
 
-@StickyMapper
+@StickyPlugin
 public class WebServiceCoercion
     implements Coercion<Object> {
 
