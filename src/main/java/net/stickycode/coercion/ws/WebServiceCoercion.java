@@ -20,28 +20,28 @@ import java.net.UnknownHostException;
 
 import javax.jws.WebService;
 import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
 import net.stickycode.coercion.Coercion;
 import net.stickycode.coercion.CoercionTarget;
-import net.stickycode.stereotype.StickyFramework;
 import net.stickycode.stereotype.StickyPlugin;
-import net.stickycode.stereotype.component.StickyMapper;
 
 @StickyPlugin
-@StickyFramework
 public class WebServiceCoercion
     implements Coercion<Object> {
 
   @Override
   public Object coerce(CoercionTarget type, String value) {
-    URL wsdlDocumentLocation = createWsdlUrl(value);
+    URL wsdlDocumentLocation = createWsdlUrl(type, value);
     WebService annotation = type.getType().getAnnotation(WebService.class);
     String namespace = deriveNamespace(type.getType(), annotation);
     String serviceName = deriveServiceName(annotation, type.getType());
     try {
       Service service = Service.create(wsdlDocumentLocation, new QName(namespace, serviceName));
-      return service.getPort(type.getType());
+      Object port = service.getPort(type.getType());
+      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, value);
+      return port;
     }
     catch (Throwable t) {
       mapException(wsdlDocumentLocation, annotation, t);
@@ -65,9 +65,13 @@ public class WebServiceCoercion
     }
   }
 
-  private URL createWsdlUrl(String value) {
+  private URL createWsdlUrl(CoercionTarget type, String value) {
     if (value.length() == 0)
       throw new UnparseableUrlForWebServiceException(value);
+
+    URL classpathWsdl = type.getType().getResource(type.getType().getSimpleName() + ".wsdl");
+    if (classpathWsdl != null)
+      return classpathWsdl;
     
     try {
       return new URL(value+ "?WSDL");

@@ -19,10 +19,8 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import net.stickycode.stereotype.StickyComponent;
-import net.stickycode.stereotype.StickyFramework;
 
 @StickyComponent
-@StickyFramework
 public class Coercions
     implements CoercionFinder {
 
