@@ -12,17 +12,18 @@
  */
 package net.stickycode.coercion;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class CollectionCoercionTest {
 
@@ -58,7 +59,7 @@ public class CollectionCoercionTest {
   }
 
   private CoercionTarget coercionTarget(Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 
   private CollectionCoercion coercion(final Coercion<?> componentCoercion) {
@@ -77,7 +78,7 @@ public class CollectionCoercionTest {
   private CoercionTarget componentCoercionType() {
     String name = testName.getMethodName();
     Field field = getField(name);
-    return new CoercionType(field.getType(), (ParameterizedType) field.getGenericType());
+    return CoercionTargets.find(field);
   }
 
   private Field getField(String name) {

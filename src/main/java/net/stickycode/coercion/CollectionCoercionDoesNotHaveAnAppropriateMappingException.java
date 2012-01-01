@@ -14,10 +14,10 @@ package net.stickycode.coercion;
 
 
 @SuppressWarnings("serial")
-public class CollectionCoercionDoesNotHaveAnAppriateMappingException
+public class CollectionCoercionDoesNotHaveAnAppropriateMappingException
     extends RuntimeException {
 
-  public CollectionCoercionDoesNotHaveAnAppriateMappingException(Class<?> type) {
+  public CollectionCoercionDoesNotHaveAnAppropriateMappingException(Class<?> type) {
     super("A mapping to a concrete collection implementation for " + type.getName() + " was not found");
   }
 

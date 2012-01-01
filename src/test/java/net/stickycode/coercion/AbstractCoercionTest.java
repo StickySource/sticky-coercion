@@ -17,6 +17,9 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Collection;
 
+import net.stickycode.coercion.target.CoercionTargets;
+import net.stickycode.coercion.target.PrimitiveResolvingCoercionTarget;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
@@ -109,7 +112,7 @@ public abstract class AbstractCoercionTest {
   }
 
   protected CoercionTarget coercionType(final Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 
   private Field getField(String name) {
@@ -138,7 +141,7 @@ public abstract class AbstractCoercionTest {
   private CoercionTarget componentCoercionType() {
     String name = testName.getMethodName();
     Field field = getField(name);
-    return new CoercionType(field.getType(), (ParameterizedType) field.getGenericType());
+    return CoercionTargets.find(field.getGenericType());
   }
 
   private CollectionCoercion collectionCoercion() {
@@ -153,7 +156,7 @@ public abstract class AbstractCoercionTest {
 
   @SuppressWarnings("unchecked")
   private ArrayCoercion arrayCoercion() {
-    return new ArrayCoercion(Arrays.asList(coercion()));
+    return new ArrayCoercion(new Coercions());
   }
 
 }

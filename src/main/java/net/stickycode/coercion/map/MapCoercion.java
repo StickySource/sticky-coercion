@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import net.stickycode.coercion.AbstractFailedToCoerceValueException;
+import net.stickycode.coercion.AbstractNoDefaultCoercion;
 import net.stickycode.coercion.Coercion;
 import net.stickycode.coercion.CoercionFinder;
 import net.stickycode.coercion.CoercionTarget;
@@ -14,13 +14,13 @@ import net.stickycode.stereotype.StickyPlugin;
 
 @StickyPlugin
 public class MapCoercion
-    implements Coercion<Map<Object, Object>> {
+    extends AbstractNoDefaultCoercion<Map<Object, Object>> {
 
   @Inject
   CoercionFinder finder;
 
   @Override
-  public Map<Object, Object> coerce(CoercionTarget type, String value) throws AbstractFailedToCoerceValueException {
+  public Map<Object, Object> coerce(CoercionTarget type, String value) {
     if (value.length() == 0)
       return Collections.emptyMap();
 

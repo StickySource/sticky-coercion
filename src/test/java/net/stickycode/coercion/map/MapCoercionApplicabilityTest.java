@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import net.stickycode.coercion.CoercionTarget;
-import net.stickycode.coercion.CoercionType;
+import net.stickycode.coercion.target.CoercionTargets;
 
 import org.junit.Test;
 
@@ -40,6 +40,6 @@ public class MapCoercionApplicabilityTest {
   }
 
   private CoercionTarget target(Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 }

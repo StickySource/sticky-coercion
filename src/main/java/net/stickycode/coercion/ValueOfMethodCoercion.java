@@ -15,13 +15,13 @@ package net.stickycode.coercion;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-
 public class ValueOfMethodCoercion
-    implements Coercion<Object> {
+    extends AbstractNoDefaultCoercion<Object> {
 
   private static final String VALUE_OF = "valueOf".intern();
+
   @Override
-  public Object coerce(CoercionTarget type, String value) throws AbstractFailedToCoerceValueException {
+  public Object coerce(CoercionTarget type, String value) {
     Method valueOfMethod = getValueOfMethod(type);
     if (valueOfMethod == null)
       throw new ValueOfMethodNotFoundForCoercionException(type.getType());
@@ -31,7 +31,7 @@ public class ValueOfMethodCoercion
 
   private Object invokeMethod(Class<?> type, Method valueOfMethod, String value) {
     try {
-      return valueOfMethod.invoke(null, new Object[] {value});
+      return valueOfMethod.invoke(null, new Object[] { value });
     }
     catch (IllegalArgumentException e) {
       throw new RuntimeException(e);
@@ -50,23 +50,24 @@ public class ValueOfMethodCoercion
   }
 
   private Method getValueOfMethod(CoercionTarget type) {
-    for (Method m : type.getType().getDeclaredMethods()) {
+    if (type.isPrimitive())
+      return getValueOfMethod(type.boxedType());
+
+    return getValueOfMethod(type.getType());
+  }
+
+  private Method getValueOfMethod(Class<?> type2) {
+    for (Method m : type2.getDeclaredMethods()) {
       if (m.getName() == VALUE_OF) {
         Class<?>[] parameterTypes = m.getParameterTypes();
         if (parameterTypes.length == 1)
           if (String.class.equals(parameterTypes[0]))
-            if (type.getType().isAssignableFrom(m.getReturnType()))
-                return m;
+            if (type2.isAssignableFrom(m.getReturnType()))
+              return m;
       }
     }
 
     return null;
   }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
-
 
 }

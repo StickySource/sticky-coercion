@@ -12,10 +12,12 @@
  */
 package net.stickycode.coercion;
 
+import net.stickycode.exception.PermanentException;
+
 
 @SuppressWarnings("serial")
 public class StringConstructorNotFoundEvenThoughWeVerifiedItWasThere
-    extends AbstractFailedToCoerceValueException {
+    extends PermanentException {
 
   public StringConstructorNotFoundEvenThoughWeVerifiedItWasThere(NoSuchMethodException e) {
     super(e, "Constructor with strin parameter's existence was validated but could not be found");

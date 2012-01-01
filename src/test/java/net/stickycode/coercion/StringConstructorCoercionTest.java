@@ -15,6 +15,8 @@ package net.stickycode.coercion;
 import java.lang.reflect.Type;
 import java.net.URL;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -54,7 +56,7 @@ public class StringConstructorCoercionTest {
   }
 
   private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 
 }

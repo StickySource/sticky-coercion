@@ -13,17 +13,23 @@
 package net.stickycode.coercion;
 
 import java.lang.reflect.Modifier;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NavigableSet;
 import java.util.Queue;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class CollectionCoercion
-    implements Coercion<Collection<?>> {
+    extends AbstractNoDefaultCoercion<Collection<?>> {
 
   private CoercionFinder coercionFinder;
 
@@ -34,13 +40,12 @@ public class CollectionCoercion
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public Collection<?> coerce(CoercionTarget type, String value)
-      throws AbstractFailedToCoerceValueException {
-    Coercion<?> componentCoercion = findComponentCoercion(type);
+  public Collection<?> coerce(CoercionTarget target, String value) {
+    CoercionTarget componentTarget = target.getComponentCoercionTypes()[0];
+    Coercion<?> componentCoercion = coercionFinder.find(componentTarget);
 
     String[] values = value.split(",");
-    Collection list = createCollection(type, values.length);
-    CoercionTarget componentTarget = type.getComponentCoercionType();
+    Collection list = createCollection(target, values.length);
     for (int i = 0; i < values.length; i++) {
       list.add(componentCoercion.coerce(componentTarget, values[i]));
     }
@@ -54,7 +59,7 @@ public class CollectionCoercion
       return defaultInstanceForType(collectionType, length);
 
     if (Modifier.isAbstract(collectionType.getModifiers()))
-      throw new CollectionCoercionDoesNotHaveAnAppriateMappingException(type.getType());
+      throw new CollectionCoercionDoesNotHaveAnAppropriateMappingException(type.getType());
 
     return newInstance(collectionType);
   }
@@ -64,16 +69,28 @@ public class CollectionCoercion
     if (List.class.isAssignableFrom(collectionType))
       return new ArrayList();
 
+    if (NavigableSet.class.isAssignableFrom(collectionType))
+      return new TreeSet();
+    
+    if (SortedSet.class.isAssignableFrom(collectionType))
+      return new TreeSet();
+    
     if (Set.class.isAssignableFrom(collectionType))
       return new HashSet();
 
+    if (BlockingDeque.class.isAssignableFrom(collectionType))
+      return new LinkedBlockingDeque();
+    
+    if (Deque.class.isAssignableFrom(collectionType))
+      return new ArrayDeque();
+    
     if (Queue.class.isAssignableFrom(collectionType))
       return new ConcurrentLinkedQueue();
 
     if (Collection.class.isAssignableFrom(collectionType))
       return new ArrayList(length);
 
-    throw new CollectionCoercionDoesNotHaveAnAppriateMappingException(collectionType);
+    throw new CollectionCoercionDoesNotHaveAnAppropriateMappingException(collectionType);
   }
 
   @SuppressWarnings("rawtypes")
@@ -93,17 +110,14 @@ public class CollectionCoercion
   public boolean isApplicableTo(CoercionTarget target) {
     if (!Collection.class.isAssignableFrom(target.getType()))
       return false;
-
-    return findComponentCoercion(target) != null;
-  }
-
-  private Coercion<?> findComponentCoercion(CoercionTarget target) {
-    return coercionFinder.find(target.getComponentCoercionType());
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
+    
+    try {
+      coercionFinder.find(target.getComponentCoercionTypes()[0]);
+      return true;
+    }
+    catch (CoercionNotFoundException e) {
+      throw new CouldNotCoerceCollectionAsACoercionForItsComponentsCouldNotBeFound(e, target, coercionFinder);
+    }
   }
 
 }

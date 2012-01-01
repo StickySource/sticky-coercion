@@ -13,7 +13,7 @@
 package net.stickycode.coercion;
 
 public class StringCoercion
-    implements Coercion<String> {
+    extends AbstractNoDefaultCoercion<String> {
 
   @Override
   public String coerce(CoercionTarget target, String value) {
@@ -22,12 +22,7 @@ public class StringCoercion
 
   @Override
   public boolean isApplicableTo(CoercionTarget target) {
-    return target.getType().isAssignableFrom(String.class);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
+    return String.class.isAssignableFrom(target.getType());
   }
 
 }

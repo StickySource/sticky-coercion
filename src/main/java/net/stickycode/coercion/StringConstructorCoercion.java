@@ -14,13 +14,11 @@ package net.stickycode.coercion;
 
 import java.lang.reflect.Constructor;
 
-
 public class StringConstructorCoercion
-    implements Coercion<Object> {
+    extends AbstractNoDefaultCoercion<Object> {
 
   @Override
-  public Object coerce(CoercionTarget target, String value)
-      throws AbstractFailedToCoerceValueException {
+  public Object coerce(CoercionTarget target, String value) {
     Constructor<?> c = getStringConstructor(target);
     return construct(value, c);
   }
@@ -54,11 +52,5 @@ public class StringConstructorCoercion
 
     return false;
   }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
-  }
-
 
 }

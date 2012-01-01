@@ -15,7 +15,7 @@ package net.stickycode.coercion;
 import java.lang.reflect.Method;
 
 public class EnumCoercion
-    implements Coercion<Object> {
+    extends AbstractNoDefaultCoercion<Object> {
 
   @Override
   public Object coerce(CoercionTarget target, String value) {

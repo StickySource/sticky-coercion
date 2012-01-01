@@ -25,8 +25,11 @@ public class StringCoercionTest
     extends AbstractCoercionTest {
 
   List<String> list;
+
   Set<String> set;
+
   Queue<String> queue;
+
   Collection<String> collection;
 
   @Override
@@ -46,7 +49,7 @@ public class StringCoercionTest
   protected Class<?> getApplicableArrayType() {
     return String[].class;
   }
-
+  
   @Test
   public void coerce() {
     assertThat(coercion().coerce(null, "blah")).isEqualTo("blah");

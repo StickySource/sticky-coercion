@@ -28,24 +28,36 @@ public class Coercions
    * XXX If you can figure out how to get guice to multibind to Set<Coercion<?>> then
    * let me know and I'll put the <?> back in.
    */
-
-  @SuppressWarnings("rawtypes")
-  private List<Coercion> coercions = new ArrayList<Coercion>();
+  /**
+   * These coercions always go first and cannot be overridden
+   */
+  private List<Coercion<?>> overridingCoercions = new ArrayList<Coercion<?>>();
 
   @Inject
-  @SuppressWarnings("rawtypes")
-  private Set<Coercion> extensions;
+  private Set<Coercion<?>> extensions;
+
+  /**
+   * General coercions that are likely to be overridable with more specific extensions.
+   */
+  private List<Coercion<?>> fallBackCoercions = new ArrayList<Coercion<?>>();
 
   public Coercions() {
-    coercions.add(new StringCoercion());
-    coercions.add(new CollectionCoercion(this));
-    coercions.add(new ValueOfMethodCoercion());
-    coercions.add(new StringConstructorCoercion());
+    overridingCoercions.add(new StringCoercion());
+    fallBackCoercions.add(new ArrayCoercion(this));
+    fallBackCoercions.add(new CollectionCoercion(this));
+    fallBackCoercions.add(new ValueOfMethodCoercion());
+    fallBackCoercions.add(new StringConstructorCoercion());
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Coercion<?> find(CoercionTarget target)
       throws CoercionNotFoundException {
+
+    for (Coercion<?> c : overridingCoercions) {
+      if (c.isApplicableTo(target))
+        return c;
+    }
 
     if (extensions != null) {
       for (Coercion<?> c : extensions)
@@ -53,7 +65,7 @@ public class Coercions
           return c;
     }
 
-    for (Coercion<?> c : coercions) {
+    for (Coercion<?> c : fallBackCoercions) {
       if (c.isApplicableTo(target))
         return c;
     }
@@ -67,8 +79,13 @@ public class Coercions
     if (extensions != null)
       all.addAll(extensions);
 
-    all.addAll(coercions);
+    all.addAll(fallBackCoercions);
     return all;
+  }
+
+  @Override
+  public String toString() {
+    return "Coercions{fixed=" + overridingCoercions + ", extensions=" + extensions + ", fallbacks=" + fallBackCoercions + "}";
   }
 
 }

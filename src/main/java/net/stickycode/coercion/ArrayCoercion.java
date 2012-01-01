@@ -13,28 +13,27 @@
 package net.stickycode.coercion;
 
 import java.lang.reflect.Array;
-import java.util.List;
 
 public class ArrayCoercion
-    implements Coercion<Object> {
+    extends AbstractNoDefaultCoercion<Object>{
 
-  private final List<? extends Coercion<?>> componentCoercions;
+  private CoercionFinder finder;
 
-  public ArrayCoercion(List<? extends Coercion<?>> componentCoercions) {
+  public ArrayCoercion(CoercionFinder finder) {
     super();
-    this.componentCoercions = componentCoercions;
+    this.finder = finder;
   }
 
   @Override
-  public Object coerce(CoercionTarget type, String value)
-      throws AbstractFailedToCoerceValueException {
-    Coercion<?> componentCoercion = findComponentCoercion(type);
+  public Object coerce(CoercionTarget target, String value) {
+    
+    CoercionTarget targetComponent = target.getComponentCoercionTypes()[0];
+    Coercion<?> componentCoercion = finder.find(targetComponent);
 
     String[] values = value.split(",");
-    Object array = Array.newInstance(type.getType().getComponentType(), values.length);
-    CoercionTarget componentTarget = type.getComponentCoercionType();
+    Object array = Array.newInstance(targetComponent.getType(), values.length);
     for (int i = 0; i < values.length; i++) {
-      Array.set(array, i, componentCoercion.coerce(componentTarget, values[i]));
+      Array.set(array, i, componentCoercion.coerce(targetComponent, values[i]));
     }
     return array;
   }
@@ -43,23 +42,14 @@ public class ArrayCoercion
   public boolean isApplicableTo(CoercionTarget target) {
     if (!target.isArray())
       return false;
-
-    return findComponentCoercion(target) != null;
-  }
-
-  private Coercion<?> findComponentCoercion(CoercionTarget target) {
-    CoercionTarget t = target.getComponentCoercionType();
-    for (Coercion<?> c : componentCoercions) {
-      if (c.isApplicableTo(t))
-        return c;
+    
+    try {
+      finder.find(target.getComponentCoercionTypes()[0]);
+      return true;
     }
-
-    return null;
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
+    catch (CoercionNotFoundException e) {
+      throw new CouldNotCoerceArrayAsACoercionForItsComponentsCouldNotBeFound(e, target, finder);
+    }
   }
 
 }

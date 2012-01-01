@@ -14,6 +14,8 @@ package net.stickycode.coercion;
 
 import java.util.regex.Pattern;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -42,7 +44,7 @@ public class PatternCoercionTest {
   }
 
   private CoercionTarget coercionTarget() {
-    return new CoercionType(Pattern.class);
+    return CoercionTargets.find(Pattern.class);
   }
 
   private PatternCoercion coercion() {

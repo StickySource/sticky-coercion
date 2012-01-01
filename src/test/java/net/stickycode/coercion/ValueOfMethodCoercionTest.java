@@ -14,10 +14,11 @@ package net.stickycode.coercion;
 
 import java.net.URL;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Test;
 
 import static org.fest.assertions.Assertions.assertThat;
-
 
 public class ValueOfMethodCoercionTest {
 
@@ -41,7 +42,7 @@ public class ValueOfMethodCoercionTest {
     assertThat(coercion().coerce(coercionTarget(Float.class), "-10.5")).isEqualTo(-10.5f);
   }
 
-  @Test(expected=ValueOfMethodNotFoundForCoercionException.class)
+  @Test(expected = ValueOfMethodNotFoundForCoercionException.class)
   public void noValueOfMethod() {
     coercion().coerce(coercionTarget(StringConstructorCoercion.class), "ug");
   }
@@ -51,7 +52,7 @@ public class ValueOfMethodCoercionTest {
   }
 
   private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 
 }

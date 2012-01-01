@@ -12,14 +12,14 @@
  */
 package net.stickycode.coercion.ws;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Test;
-
-import net.stickycode.coercion.CoercionType;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class WebServiceCoercionTest {
 
@@ -52,17 +52,17 @@ public class WebServiceCoercionTest {
 
   @Test
   public void isApplicable() {
-    assertThat(new WebServiceCoercion().isApplicableTo(new CoercionType(TestWs.class))).isTrue();
+    assertThat(new WebServiceCoercion().isApplicableTo(CoercionTargets.find(TestWs.class))).isTrue();
   }
 
   @Test
   public void notApplicable() {
-    assertThat(new WebServiceCoercion().isApplicableTo(new CoercionType(Integer.class))).isFalse();
+    assertThat(new WebServiceCoercion().isApplicableTo(CoercionTargets.find(Integer.class))).isFalse();
   }
 
   @Test(expected = RuntimeException.class)
   public void coerce() {
-    TestWs coerced = (TestWs) new WebServiceCoercion().coerce(new CoercionType(TestWs.class), null);
+    TestWs coerced = (TestWs) new WebServiceCoercion().coerce(CoercionTargets.find(TestWs.class), null);
     assertThat(coerced).isNotNull();
   }
 
@@ -72,7 +72,7 @@ public class WebServiceCoercionTest {
     Endpoint endpoint = Endpoint.publish(WS_URL, implementor);
     try {
       TestWs coerced = (TestWs) new WebServiceCoercion()
-          .coerce(new CoercionType(TestWs.class), WS_URL);
+          .coerce(CoercionTargets.find(TestWs.class), WS_URL);
       assertThat(coerced).isNotNull();
       assertThat(coerced.giveMe()).isEqualTo("1");
       assertThat(coerced.giveMe()).isEqualTo("2");
@@ -88,7 +88,7 @@ public class WebServiceCoercionTest {
     WhatTestWs implementor = new WhatTestWs();
     Endpoint endpoint = Endpoint.publish(WS_URL + "/moved", implementor);
     try {
-      new WebServiceCoercion().coerce(new CoercionType(TestWs.class), WS_URL);
+      new WebServiceCoercion().coerce(CoercionTargets.find(TestWs.class), WS_URL);
     }
     finally {
       endpoint.stop();
@@ -100,7 +100,7 @@ public class WebServiceCoercionTest {
     WhatTestWs implementor = new WhatTestWs();
     Endpoint endpoint = Endpoint.publish(WS_URL, implementor);
     try {
-      new WebServiceCoercion().coerce(new CoercionType(OtherWs.class), WS_URL);
+      new WebServiceCoercion().coerce(CoercionTargets.find(OtherWs.class), WS_URL);
     }
     finally {
       endpoint.stop();
@@ -109,12 +109,12 @@ public class WebServiceCoercionTest {
 
   @Test(expected = CouldNotConnectToWebServiceException.class)
   public void coerceNothing() {
-    new WebServiceCoercion().coerce(new CoercionType(OtherWs.class), WS_URL);
+    new WebServiceCoercion().coerce(CoercionTargets.find(OtherWs.class), WS_URL);
   }
 
   @Test(expected = CouldNotConnectToWebServiceException.class)
   public void coerceWhere() {
-    new WebServiceCoercion().coerce(new CoercionType(OtherWs.class), "http://where");
+    new WebServiceCoercion().coerce(CoercionTargets.find(OtherWs.class), "http://where");
   }
 
 }

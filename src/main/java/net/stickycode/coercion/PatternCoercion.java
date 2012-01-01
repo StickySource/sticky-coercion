@@ -15,11 +15,11 @@ package net.stickycode.coercion;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.stickycode.stereotype.StickyPlugin;
+import net.stickycode.stereotype.component.StickyExtension;
 
-@StickyPlugin
+@StickyExtension
 public class PatternCoercion
-    implements Coercion<Pattern> {
+    extends AbstractNoDefaultCoercion<Pattern> {
 
   @Override
   public Pattern coerce(CoercionTarget type, String value)
@@ -35,11 +35,6 @@ public class PatternCoercion
   @Override
   public boolean isApplicableTo(CoercionTarget type) {
     return type.getType().isAssignableFrom(Pattern.class);
-  }
-
-  @Override
-  public String toString() {
-    return getClass().getSimpleName();
   }
 
 }

@@ -23,13 +23,14 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 
-import net.stickycode.coercion.Coercion;
+import net.stickycode.coercion.AbstractNoDefaultCoercion;
 import net.stickycode.coercion.CoercionTarget;
-import net.stickycode.stereotype.StickyPlugin;
+import net.stickycode.coercion.ResolvedValue;
+import net.stickycode.stereotype.component.StickyExtension;
 
-@StickyPlugin
+@StickyExtension
 public class WebServiceCoercion
-    implements Coercion<Object> {
+    extends AbstractNoDefaultCoercion<Object> {
 
   @Override
   public Object coerce(CoercionTarget type, String value) {
@@ -40,7 +41,9 @@ public class WebServiceCoercion
     try {
       Service service = Service.create(wsdlDocumentLocation, new QName(namespace, serviceName));
       Object port = service.getPort(type.getType());
-      ((BindingProvider)port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, value);
+      ((BindingProvider) port).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, value);
+      
+//      "com.sun.xml.ws.request.timeout"
       return port;
     }
     catch (Throwable t) {
@@ -53,10 +56,10 @@ public class WebServiceCoercion
     if (t.getCause() != null) {
       if (t.getCause() instanceof UnknownHostException)
         throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
-      
+
       if (t.getCause() instanceof FileNotFoundException)
         throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
-      
+
       if (t.getCause() instanceof ConnectException)
         throw new CouldNotConnectToWebServiceException(t, wsdlDocumentLocation, annotation);
     }
@@ -72,9 +75,9 @@ public class WebServiceCoercion
     URL classpathWsdl = type.getType().getResource(type.getType().getSimpleName() + ".wsdl");
     if (classpathWsdl != null)
       return classpathWsdl;
-    
+
     try {
-      return new URL(value+ "?WSDL");
+      return new URL(value + "?WSDL");
     }
     catch (MalformedURLException e) {
       throw new UnparseableUrlForWebServiceException(e, value);

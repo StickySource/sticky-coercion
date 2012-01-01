@@ -12,11 +12,10 @@
  */
 package net.stickycode.coercion;
 
-import java.util.Arrays;
+import static org.fest.assertions.Assertions.assertThat;
+import net.stickycode.coercion.target.CoercionTargets;
 
 import org.junit.Test;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class ArrayCoercionTest {
 
@@ -62,13 +61,10 @@ public class ArrayCoercionTest {
   }
 
   private CoercionTarget coercionTarget(final Class<?> type) {
-    return new CoercionType(type);
+    return CoercionTargets.find(type);
   }
 
-  @SuppressWarnings("unchecked")
   private ArrayCoercion coercion() {
-    return new ArrayCoercion(Arrays.asList(
-        new StringCoercion(),
-        new StringConstructorCoercion()));
+    return new ArrayCoercion(new Coercions());
   }
 }
