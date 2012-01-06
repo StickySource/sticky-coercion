@@ -23,18 +23,19 @@ import net.stickycode.stereotype.StickyComponent;
 @StickyComponent
 public class Coercions
     implements CoercionFinder {
-
-  /*
-   * XXX If you can figure out how to get guice to multibind to Set<Coercion<?>> then
-   * let me know and I'll put the <?> back in.
-   */
   /**
    * These coercions always go first and cannot be overridden
    */
   private List<Coercion<?>> overridingCoercions = new ArrayList<Coercion<?>>();
 
+  
+  /*
+   * XXX If you can figure out how to get guice to multibind to Set<Coercion<?>> then
+   * let me know and I'll put the <?> back in.
+   */
+  @SuppressWarnings("rawtypes")
   @Inject
-  private Set<Coercion<?>> extensions;
+  private Set<Coercion> extensions;
 
   /**
    * General coercions that are likely to be overridable with more specific extensions.
