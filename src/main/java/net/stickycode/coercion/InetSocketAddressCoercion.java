@@ -4,20 +4,14 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-import net.stickycode.coercion.AbstractFailedToCoerceValueException;
-import net.stickycode.coercion.Coercion;
-import net.stickycode.coercion.CoercionTarget;
 import net.stickycode.stereotype.component.StickyExtension;
 
 @StickyExtension
 public class InetSocketAddressCoercion
-    implements Coercion<InetSocketAddress>
-{
+    extends AbstractNoDefaultCoercion<InetSocketAddress> {
 
   @Override
-  public InetSocketAddress coerce(CoercionTarget target, String value)
-    throws AbstractFailedToCoerceValueException
-  {
+  public InetSocketAddress coerce(CoercionTarget target, String value) {
     int indexOfColon = value.lastIndexOf(':');
     if (indexOfColon < 0 || indexOfColon == value.length())
       throw new InetSocketAddressSpecificationInvalidException(value);
@@ -35,8 +29,7 @@ public class InetSocketAddressCoercion
     }
   }
 
-  private InetAddress resolveAddress(String hostname)
-  {
+  private InetAddress resolveAddress(String hostname) {
     try
     {
       return InetAddress.getByName(hostname);
@@ -48,8 +41,7 @@ public class InetSocketAddressCoercion
   }
 
   @Override
-  public boolean isApplicableTo(CoercionTarget target)
-  {
+  public boolean isApplicableTo(CoercionTarget target) {
     return target.getType().isAssignableFrom(InetSocketAddress.class);
   }
 

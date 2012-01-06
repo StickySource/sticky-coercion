@@ -5,6 +5,8 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.net.InetSocketAddress;
 import java.util.regex.Pattern;
 
+import net.stickycode.coercion.target.CoercionTargets;
+
 import org.junit.Test;
 
 public class InetSocketAddressCoercionTest {
@@ -12,12 +14,12 @@ public class InetSocketAddressCoercionTest {
   @Test
   public void applicability() {
     assertThat(new InetSocketAddressCoercion().isApplicableTo(coercionTarget())).isTrue();
-    assertThat(new InetSocketAddressCoercion().isApplicableTo(new CoercionType(String.class))).isFalse();
-    assertThat(new InetSocketAddressCoercion().isApplicableTo(new CoercionType(Pattern.class))).isFalse();
+    assertThat(new InetSocketAddressCoercion().isApplicableTo(CoercionTargets.find(String.class))).isFalse();
+    assertThat(new InetSocketAddressCoercion().isApplicableTo(CoercionTargets.find(Pattern.class))).isFalse();
   }
 
-  private CoercionType coercionTarget() {
-    return new CoercionType(InetSocketAddress.class);
+  private CoercionTarget coercionTarget() {
+    return CoercionTargets.find(InetSocketAddress.class);
   }
 
   @Test(expected = InetSocketAddressSpecificationInvalidException.class)
