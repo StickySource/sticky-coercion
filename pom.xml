@@ -10,7 +10,7 @@
 
 	<groupId>net.stickycode</groupId>
 	<artifactId>sticky-coercion</artifactId>
-	<version>4.3</version>
+	<version>4.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-coercion</name>
@@ -19,9 +19,9 @@
 	<url>http://www.StickyCode.net/sticky-coercion/</url>
 
 	<scm>
-		<connection>scm:svn:http://source.stickycode.net/tags/net.stickycode/sticky-coercion-4.3</connection>
-		<developerConnection>scm:svn:http://source.stickycode.net/tags/net.stickycode/sticky-coercion-4.3</developerConnection>
-		<url>scm:svn:http://source.stickycode.net/tags/net.stickycode/sticky-coercion-4.3</url>
+		<connection>scm:svn:http://stickycode.googlecode.com/svn/trunk/net.stickycode/sticky-coercion</connection>
+		<developerConnection>scm:svn:https://stickycode.googlecode.com/svn/trunk/net.stickycode/sticky-coercion</developerConnection>
+		<url>http://code.google.com/p/stickycode/source/browse/#svn/trunk/net.stickycode/sticky-coercion</url>
 	</scm>
 
 	<dependencies>
