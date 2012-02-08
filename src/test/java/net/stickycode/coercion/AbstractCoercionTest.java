@@ -141,7 +141,7 @@ public abstract class AbstractCoercionTest {
   private CoercionTarget componentCoercionType() {
     String name = testName.getMethodName();
     Field field = getField(name);
-    return CoercionTargets.find(field.getGenericType());
+    return CoercionTargets.find(field.getGenericType(), getClass());
   }
 
   private CollectionCoercion collectionCoercion() {

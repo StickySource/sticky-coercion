@@ -7,12 +7,12 @@ public abstract class AbstractNoDefaultCoercion<T>
   public boolean hasDefaultValue() {
     return false;
   }
-  
+
   @Override
-  public T getDefaultValue() {
-    throw new UnsupportedOperationException("This coercion " + toString() + " does not have a default value");
+  public T getDefaultValue(CoercionTarget target) {
+    throw new UnsupportedOperationException("This coercion " + toString() + " does not define a default value");
   }
-  
+
   @Override
   public String toString() {
     return getClass().getSimpleName();
