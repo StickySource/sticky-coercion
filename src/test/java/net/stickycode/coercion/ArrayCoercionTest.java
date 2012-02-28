@@ -19,6 +19,35 @@ import org.junit.Test;
 
 public class ArrayCoercionTest {
 
+  private static class Blah {
+    private final String value;
+
+    public Blah(String value) {
+      super();
+      this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+      return value.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return value.equals(((Blah)obj).value);
+    }
+    
+  }
+  
+  @Test
+  public void stringConstructor() {
+    ArrayCoercion coercion = coercion();
+    CoercionTarget coercionTarget = coercionTarget(Blah[].class);
+    assertThat(coercion.isApplicableTo(coercionTarget)).isTrue();
+    assertThat((Blah[]) coercion.coerce(coercionTarget, "a")).containsOnly(new Blah("a"));
+    assertThat((Blah[]) coercion.coerce(coercionTarget, "a,b,c")).containsOnly(new Blah("a"), new Blah("b"), new Blah( "c"));
+    assertThat((Blah[]) coercion.coerce(coercionTarget, "abc,bde,ceg")).containsOnly(new Blah("abc"), new Blah("bde"), new Blah( "ceg"));
+  }
   @Test
   public void string() {
     ArrayCoercion coercion = coercion();
@@ -57,8 +86,9 @@ public class ArrayCoercionTest {
     assertThat(coercion.isApplicableTo(coercionTarget)).isTrue();
     assertThat((int[]) coercion.coerce(coercionTarget, "45")).containsOnly(45);
     assertThat((int[]) coercion.coerce(coercionTarget, "45,127,-127")).containsOnly(45, 127, -127);
-
   }
+  
+  
 
   private CoercionTarget coercionTarget(final Class<?> type) {
     return CoercionTargets.find(type);
