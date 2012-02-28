@@ -75,7 +75,13 @@ public class WebServiceCoercion
     URL classpathWsdl = type.getType().getResource(type.getType().getSimpleName() + ".wsdl");
     if (classpathWsdl != null)
       return classpathWsdl;
-
+    
+    // If the ws is local aka unitesting the their will be no wsdl
+    // or the wsdl is already on the classpath so no issue
+    // returning null works fine in this case
+    if (value.startsWith("local://"))
+      return null; 
+    
     try {
       return new URL(value + "?WSDL");
     }
