@@ -40,7 +40,7 @@ public class ValueOfMethodCoercion
       throw new RuntimeException(e);
     }
     catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
+      throw new FailedToCoerceUsingValueOfMethodException(e, type, value);
     }
   }
 
