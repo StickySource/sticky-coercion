@@ -12,13 +12,13 @@
  */
 package net.stickycode.coercion;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.net.URL;
 
 import net.stickycode.coercion.target.CoercionTargets;
 
 import org.junit.Test;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class ValueOfMethodCoercionTest {
 
@@ -40,6 +40,11 @@ public class ValueOfMethodCoercionTest {
     assertThat(coercion().coerce(coercionTarget(Boolean.class), "false")).isEqualTo(Boolean.FALSE);
     assertThat(coercion().coerce(coercionTarget(Integer.class), "10")).isEqualTo(10);
     assertThat(coercion().coerce(coercionTarget(Float.class), "-10.5")).isEqualTo(-10.5f);
+  }
+
+  @Test(expected = FailedToCoerceUsingValueOfMethodException.class)
+  public void invalidInteger() {
+    coercion().coerce(coercionTarget(Integer.class), "other");
   }
 
   @Test(expected = ValueOfMethodNotFoundForCoercionException.class)

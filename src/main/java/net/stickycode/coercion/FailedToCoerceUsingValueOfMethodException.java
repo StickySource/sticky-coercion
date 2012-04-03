@@ -9,7 +9,7 @@ public class FailedToCoerceUsingValueOfMethodException
     extends PermanentException {
 
   public FailedToCoerceUsingValueOfMethodException(InvocationTargetException e, Class<?> type, String value) {
-    super(e, "Failed to invoke value of method on {} with value {}", type.getName(), value);
+    super(e, "Failed to invoke value of method on '' with value ''", type.getName(), value);
   }
 
 }
