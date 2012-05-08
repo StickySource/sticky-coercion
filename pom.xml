@@ -10,7 +10,7 @@
 
 	<groupId>net.stickycode</groupId>
 	<artifactId>sticky-coercion</artifactId>
-	<version>4.8-SNAPSHOT</version>
+	<version>4.10-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-coercion</name>
@@ -35,12 +35,12 @@
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-coercion-api</artifactId>
-			<version>[3.7,4)</version>
+			<version>[3.8,4)</version>
 		</dependency>
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-stereotype</artifactId>
-			<version>[1.16,2)</version>
+			<version>[1.17,2)</version>
 		</dependency>
 	</dependencies>
 </project>
