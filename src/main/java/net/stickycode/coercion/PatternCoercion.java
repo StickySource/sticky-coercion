@@ -15,7 +15,7 @@ package net.stickycode.coercion;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import net.stickycode.stereotype.component.StickyExtension;
+import net.stickycode.stereotype.plugin.StickyExtension;
 
 @StickyExtension
 public class PatternCoercion
