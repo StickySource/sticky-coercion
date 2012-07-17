@@ -10,10 +10,10 @@
 
 	<groupId>net.stickycode</groupId>
 	<artifactId>sticky-coercion</artifactId>
-	<version>4.2-SNAPSHOT</version>
+	<version>5.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sticky-coercion-4</name>
+	<name>sticky-coercion-5</name>
 	<description>A simple coercion library for converting strings to objects</description>
 	<inceptionYear>2009</inceptionYear>
 	<url>http://www.StickyCode.net/sticky-coercion/</url>
