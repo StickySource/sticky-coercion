@@ -10,6 +10,7 @@ import net.stickycode.coercion.AbstractNoDefaultCoercion;
 import net.stickycode.coercion.Coercion;
 import net.stickycode.coercion.CoercionFinder;
 import net.stickycode.coercion.CoercionTarget;
+import net.stickycode.coercion.StringSpliterable;
 import net.stickycode.stereotype.StickyPlugin;
 
 @StickyPlugin
@@ -18,13 +19,12 @@ public class MapCoercion
 
   @Inject
   CoercionFinder finder;
-
+  
   @Override
   public Map<Object, Object> coerce(CoercionTarget type, String value) {
     if (value.length() == 0)
       return Collections.emptyMap();
 
-    String[] entries = value.split(",");
 
     CoercionTarget[] typeArguments = type.getComponentCoercionTypes();
     assert typeArguments.length == 2 : "Maps should have two type arguments";
@@ -32,7 +32,7 @@ public class MapCoercion
     Coercion<?> keyCoercion = findComponentCoercion(typeArguments[0]);
     Coercion<?> valueCoercion = findComponentCoercion(typeArguments[1]);
     Map<Object, Object> map = new HashMap<Object, Object>();
-    for (String string : entries) {
+    for (String string : new StringSpliterable(value)) {
       String[] s = string.split("=");
       map.put(
           keyCoercion.coerce(typeArguments[0], s[0]),

@@ -29,8 +29,7 @@ public class ArrayCoercion
     
     CoercionTarget targetComponent = target.getComponentCoercionTypes()[0];
     Coercion<?> componentCoercion = finder.find(targetComponent);
-
-    String[] values = value.split(",");
+    String[] values = new StringSpliterable(value).asArray();
     Object array = Array.newInstance(targetComponent.getType(), values.length);
     for (int i = 0; i < values.length; i++) {
       Array.set(array, i, componentCoercion.coerce(targetComponent, values[i]));

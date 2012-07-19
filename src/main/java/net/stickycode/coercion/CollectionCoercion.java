@@ -44,7 +44,7 @@ public class CollectionCoercion
     CoercionTarget componentTarget = target.getComponentCoercionTypes()[0];
     Coercion<?> componentCoercion = coercionFinder.find(componentTarget);
 
-    String[] values = value.split(",");
+    String[] values = new StringSpliterable(value).asArray() ;
     Collection list = createCollection(target, values.length);
     for (int i = 0; i < values.length; i++) {
       list.add(componentCoercion.coerce(componentTarget, values[i]));
