@@ -26,8 +26,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>net.stickycode.composite</groupId>
-			<artifactId>sticky-composite-unittest</artifactId>
+			<groupId>net.stickycode</groupId>
+			<artifactId>sticky-testutils</artifactId>
 			<version>[1.7,2)</version>
 			<scope>test</scope>
 		</dependency>
