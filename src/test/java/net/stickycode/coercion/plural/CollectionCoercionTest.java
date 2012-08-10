@@ -70,7 +70,7 @@ public class CollectionCoercionTest {
 
   private CollectionCoercion coercion(final Coercion<?> componentCoercion) {
     return new CollectionCoercion(new CoercionFinder() {
-      @SuppressWarnings("rawtypes")
+      @SuppressWarnings({ "rawtypes", "unchecked" })
       @Override
       public Coercion<?> find(CoercionTarget target) throws CoercionNotFoundException {
         if (componentCoercion == null)
