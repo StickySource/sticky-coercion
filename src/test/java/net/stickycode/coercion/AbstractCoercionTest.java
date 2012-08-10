@@ -12,19 +12,18 @@
  */
 package net.stickycode.coercion;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
 import java.util.Collection;
 
+import net.stickycode.coercion.plural.ArrayCoercion;
+import net.stickycode.coercion.plural.CollectionCoercion;
 import net.stickycode.coercion.target.CoercionTargets;
-import net.stickycode.coercion.target.PrimitiveResolvingCoercionTarget;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public abstract class AbstractCoercionTest {
 
@@ -147,6 +146,7 @@ public abstract class AbstractCoercionTest {
   private CollectionCoercion collectionCoercion() {
     return new CollectionCoercion(new CoercionFinder() {
 
+      @SuppressWarnings("unchecked")
       @Override
       public Coercion<?> find(CoercionTarget target) throws CoercionNotFoundException {
         return coercion();
@@ -154,7 +154,6 @@ public abstract class AbstractCoercionTest {
     });
   }
 
-  @SuppressWarnings("unchecked")
   private ArrayCoercion arrayCoercion() {
     return new ArrayCoercion(new Coercions());
   }
