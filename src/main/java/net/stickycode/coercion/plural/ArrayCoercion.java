@@ -10,9 +10,16 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.coercion;
+package net.stickycode.coercion.plural;
 
 import java.lang.reflect.Array;
+
+import net.stickycode.coercion.AbstractNoDefaultCoercion;
+import net.stickycode.coercion.Coercion;
+import net.stickycode.coercion.CoercionFinder;
+import net.stickycode.coercion.CoercionNotFoundException;
+import net.stickycode.coercion.CoercionTarget;
+import net.stickycode.coercion.StringSpliterable;
 
 public class ArrayCoercion
     extends AbstractNoDefaultCoercion<Object>{

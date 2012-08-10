@@ -18,6 +18,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import net.stickycode.coercion.plural.ArrayCoercion;
+import net.stickycode.coercion.plural.CollectionCoercion;
 import net.stickycode.stereotype.StickyComponent;
 
 @StickyComponent

@@ -10,16 +10,19 @@
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
-package net.stickycode.coercion;
+package net.stickycode.coercion.plural;
 
 import static org.fest.assertions.Assertions.assertThat;
+import net.stickycode.coercion.CoercionTarget;
+import net.stickycode.coercion.Coercions;
+import net.stickycode.coercion.plural.ArrayCoercion;
 import net.stickycode.coercion.target.CoercionTargets;
 
 import org.junit.Test;
 
 public class ArrayCoercionTest {
 
-  private static class Blah {
+  public static class Blah {
     private final String value;
 
     public Blah(String value) {

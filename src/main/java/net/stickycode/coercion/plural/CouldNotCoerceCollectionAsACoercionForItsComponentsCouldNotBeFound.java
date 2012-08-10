@@ -1,5 +1,8 @@
-package net.stickycode.coercion;
+package net.stickycode.coercion.plural;
 
+import net.stickycode.coercion.CoercionFinder;
+import net.stickycode.coercion.CoercionNotFoundException;
+import net.stickycode.coercion.CoercionTarget;
 import net.stickycode.exception.PermanentException;
 
 @SuppressWarnings("serial")
