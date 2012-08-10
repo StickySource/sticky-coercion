@@ -1,7 +1,9 @@
-package net.stickycode.coercion;
+package net.stickycode.coercion.extension;
 
 import java.nio.charset.Charset;
 
+import net.stickycode.coercion.Coercion;
+import net.stickycode.coercion.CoercionTarget;
 import net.stickycode.stereotype.plugin.StickyExtension;
 
 @StickyExtension
@@ -13,7 +15,7 @@ public class CharacterSetCoercion
     if (Charset.isSupported(characterSetName))
       return Charset.forName(characterSetName);
 
-    throw new UnableToCoerceAsCharsetIsNotSupported(target, characterSetName);
+    throw new CharacterSetIsNoSupportedForCoercionException(target, characterSetName, Charset.availableCharsets().keySet());
   }
 
   @Override
