@@ -12,23 +12,48 @@
  */
 package net.stickycode.coercion;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import net.stickycode.stereotype.plugin.StickyExtension;
+
+@StickyExtension
 public class EnumCoercion
     extends AbstractNoDefaultCoercion<Object> {
 
   @Override
   public Object coerce(CoercionTarget target, String value) {
-    Method factoryMethod = getValueOfMethod(target);
-    return getEnumValue(value, factoryMethod);
+    return getEnumValue(value, target);
   }
 
-  private Object getEnumValue(String value, Method factoryMethod) {
+  private Object getEnumValue(String value, CoercionTarget target) {
+    Method valueOfMethod = getValueOfMethod(target);
     try {
-      return factoryMethod.invoke(null, new Object[] { value });
+      return valueOfMethod.invoke(null, new Object[] { value });
     }
     catch (Exception e) {
-      throw new EnumValueNotFoundException(e, value, factoryMethod.getReturnType());
+      throw new EnumValueNotFoundException(e, value, getValues(target));
+    }
+  }
+
+  private Object[] getValues(CoercionTarget target) {
+    try {
+      return (Object[])target.getType().getMethod("values", new Class[0]).invoke(null, new Object[0]);
+    }
+    catch (NoSuchMethodException e) {
+      throw new EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
+    }
+    catch (IllegalArgumentException e) {
+      throw new EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
+    }
+    catch (SecurityException e) {
+      throw new EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
+    }
+    catch (IllegalAccessException e) {
+      throw new EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
+    }
+    catch (InvocationTargetException e) {
+      throw new EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(e);
     }
   }
 

@@ -16,11 +16,11 @@ import net.stickycode.exception.TransientException;
 
 
 @SuppressWarnings("serial")
-public class EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere
+public class EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere
     extends TransientException {
 
-  public EnumValueOfMethodNotFoundEvenThoughWeVerifiedItWasThere(NoSuchMethodException e) {
-    super(e, "valueOf method with string parameter's existence was validated but could not be found");
+  public EnumValuesMethodNotFoundEvenThoughWeVerifiedItWasThere(Exception e) {
+    super(e, "values method with string parameter's existence was validated but could not be found");
   }
 
 }

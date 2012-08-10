@@ -12,6 +12,8 @@
  */
 package net.stickycode.coercion;
 
+import java.util.Arrays;
+
 import net.stickycode.exception.PermanentException;
 
 
@@ -19,8 +21,8 @@ import net.stickycode.exception.PermanentException;
 public class EnumValueNotFoundException
     extends PermanentException {
 
-  public EnumValueNotFoundException(Exception e, String value, Class<?> type) {
-    super(e, "Failed to coerce '{}' to type '{}'", value, type.getName());
+  public EnumValueNotFoundException(Exception e, String value, Object[] objects) {
+    super(e, "Value '' not found try one of ''", value, Arrays.asList(objects));
   }
 
 }
