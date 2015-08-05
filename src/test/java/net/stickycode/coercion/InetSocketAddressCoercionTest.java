@@ -1,6 +1,6 @@
 package net.stickycode.coercion;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.InetSocketAddress;
 import java.util.regex.Pattern;

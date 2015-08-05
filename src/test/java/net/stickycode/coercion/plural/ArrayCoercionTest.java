@@ -12,7 +12,7 @@
  */
 package net.stickycode.coercion.plural;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import net.stickycode.coercion.CoercionTarget;
 import net.stickycode.coercion.Coercions;
 import net.stickycode.coercion.plural.ArrayCoercion;

@@ -3,17 +3,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>net.stickycode.parent</groupId>
-		<artifactId>sticky-jar</artifactId>
-		<version>1.24</version>
+		<artifactId>sticky-parent-jar8</artifactId>
+		<version>1.3</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.stickycode</groupId>
 	<artifactId>sticky-coercion</artifactId>
-	<version>5.5-SNAPSHOT</version>
+	<version>6.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>sticky-coercion-5</name>
+	<name>sticky-coercion-6</name>
 	<description>A simple coercion library for converting strings to objects</description>
 	<inceptionYear>2009</inceptionYear>
 	<url>http://www.StickyCode.net/sticky-coercion/</url>
@@ -28,25 +28,25 @@
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-testutils</artifactId>
-			<version>[1.11,2)</version>
+			<version>[2,3)</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.stickycode</groupId>
+			<artifactId>sticky-reflector</artifactId>
+			<version>[3,4)</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-coercion-api</artifactId>
-			<version>[3.9,4)</version>
+			<version>[4,5)</version>
 		</dependency>
 		<dependency>
 			<groupId>net.stickycode.stereotype</groupId>
 			<artifactId>sticky-stereotype-component</artifactId>
 			<version>[2.1,3)</version>
-		</dependency>
-		<dependency>
-			<groupId>net.stickycode</groupId>
-			<artifactId>sticky-reflector</artifactId>
-			<version>[1.10,2)</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

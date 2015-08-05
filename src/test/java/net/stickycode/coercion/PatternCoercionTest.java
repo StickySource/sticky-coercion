@@ -18,7 +18,7 @@ import net.stickycode.coercion.target.CoercionTargets;
 
 import org.junit.Test;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * {@link Pattern} does not implement equals so the standard {@link AbstractCoercionTest} cannot be used

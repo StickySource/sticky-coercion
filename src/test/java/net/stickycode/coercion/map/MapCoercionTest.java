@@ -1,7 +1,7 @@
 package net.stickycode.coercion.map;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.MapAssert.entry;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -46,20 +46,20 @@ public class MapCoercionTest {
 
   @Test
   public void singleString() {
-    assertThat(coerce("a=b")).includes(entry("a", "b"));
+    assertThat(coerce("a=b")).contains(entry("a", "b"));
   }
 
   @Test
   public void singleInteger() {
-    assertThat(coerce("a=3")).includes(entry("a", 3));
-    assertThat(coerce("b=-3")).includes(entry("b", -3));
-    assertThat(coerce("b=-3,a=2")).includes(entry("a", 2), entry("b", -3));
+    assertThat(coerce("a=3")).contains(entry("a", 3));
+    assertThat(coerce("b=-3")).contains(entry("b", -3));
+    assertThat(coerce("b=-3,a=2")).contains(entry("a", 2), entry("b", -3));
   }
 
   @Test
   public void integer() {
-    assertThat(coerce("5=3")).includes(entry(5, 3));
-    assertThat(coerce("5=3,10=2")).includes(entry(5, 3), entry(10, 2));
+    assertThat(coerce("5=3")).contains(entry(5, 3));
+    assertThat(coerce("5=3,10=2")).contains(entry(5, 3), entry(10, 2));
   }
 
   private Map<Object, Object> coerce(String value) {
