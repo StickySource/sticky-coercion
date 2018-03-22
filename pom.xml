@@ -11,7 +11,7 @@
 
 	<groupId>net.stickycode</groupId>
 	<artifactId>sticky-coercion</artifactId>
-	<version>6.4-SNAPSHOT</version>
+	<version>6.4</version>
 	<packaging>jar</packaging>
 
 	<name>sticky-coercion-6</name>
@@ -21,7 +21,7 @@
 
   <scm>
     <developerConnection>${git.url}</developerConnection>
-    <tag>HEAD</tag>
+    <tag>sticky-coercion-6.4</tag>
   </scm>
 
 	<dependencies>
