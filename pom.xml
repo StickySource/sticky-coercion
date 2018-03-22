@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright (c) 2010 RedEngine Ltd, http://www.redengine.co.nz. All rights reserved. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
-		<groupId>net.stickycode.parent</groupId>
-		<artifactId>sticky-parent-jar8</artifactId>
-		<version>1.3</version>
-	</parent>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <parent>
+    <groupId>net.stickycode.parent</groupId>
+    <artifactId>sticky-parent-jar8</artifactId>
+    <version>3.1</version>
+  </parent>
+
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.stickycode</groupId>
@@ -18,11 +19,10 @@
 	<inceptionYear>2009</inceptionYear>
 	<url>http://www.StickyCode.net/sticky-coercion/</url>
 
-	<scm>
-		<connection>scm:svn:http://stickycode.googlecode.com/svn/trunk/net.stickycode/sticky-coercion</connection>
-		<developerConnection>scm:svn:https://stickycode.googlecode.com/svn/trunk/net.stickycode/sticky-coercion</developerConnection>
-		<url>http://code.google.com/p/stickycode/source/browse/#svn/trunk/net.stickycode/sticky-coercion</url>
-	</scm>
+  <scm>
+    <developerConnection>${git.url}</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
 	<dependencies>
 		<dependency>
@@ -34,14 +34,14 @@
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-reflector</artifactId>
-			<version>[3.2,4)</version>
+			<version>[3.3,4)</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>net.stickycode</groupId>
 			<artifactId>sticky-coercion-api</artifactId>
-			<version>[4.3,5)</version>
+			<version>[4.4,5)</version>
 		</dependency>
 		<dependency>
 			<groupId>net.stickycode.stereotype</groupId>
