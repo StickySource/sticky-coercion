@@ -14,7 +14,6 @@ package net.stickycode.coercion;
 
 import static org.assertj.core.api.StrictAssertions.assertThat;
 
-import java.net.URL;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
