@@ -15,24 +15,23 @@ package net.stickycode.coercion;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class ValueOfMethodCoercion
+public class ParseMethodCoercion
     extends AbstractNoDefaultCoercion<Object> {
 
-  private static final String VALUE_OF = "valueOf".intern();
-  private static final String OF = "of".intern();
+  private static final String PARSE = "parse".intern();
 
   @Override
   public Object coerce(CoercionTarget type, String value) {
-    Method valueOfMethod = getValueOfMethod(type);
-    if (valueOfMethod == null)
-      throw new ValueOfMethodNotFoundForCoercionException(type.getType());
+    Method parseMethod = getParseMethod(type);
+    if (parseMethod == null)
+      throw new ParseMethodNotFoundForCoercionException(type.getType());
 
-    return invokeMethod(type.getType(), valueOfMethod, value);
+    return invokeMethod(type.getType(), parseMethod, value);
   }
 
-  private Object invokeMethod(Class<?> type, Method valueOfMethod, String value) {
+  private Object invokeMethod(Class<?> type, Method parseMethod, String value) {
     try {
-      return valueOfMethod.invoke(null, new Object[] { value });
+      return parseMethod.invoke(null, new Object[] { value });
     }
     catch (IllegalArgumentException e) {
       throw new RuntimeException(e);
@@ -41,28 +40,28 @@ public class ValueOfMethodCoercion
       throw new RuntimeException(e);
     }
     catch (InvocationTargetException e) {
-      throw new FailedToCoerceUsingValueOfMethodException(e, type, value);
+      throw new FailedToCoerceUsingParseMethodException(e, type, value);
     }
   }
 
   @Override
   public boolean isApplicableTo(CoercionTarget type) {
-    return getValueOfMethod(type) != null;
+    return getParseMethod(type) != null;
   }
 
-  private Method getValueOfMethod(CoercionTarget type) {
+  private Method getParseMethod(CoercionTarget type) {
     if (type.isPrimitive())
-      return getValueOfMethod(type.boxedType());
+      return getParseMethod(type.boxedType());
 
-    return getValueOfMethod(type.getType());
+    return getParseMethod(type.getType());
   }
 
-  private Method getValueOfMethod(Class<?> type2) {
+  private Method getParseMethod(Class<?> type2) {
     for (Method m : type2.getDeclaredMethods()) {
-      if (m.getName() == VALUE_OF || m.getName() == OF) {
+      if (m.getName() == PARSE) {
         Class<?>[] parameterTypes = m.getParameterTypes();
         if (parameterTypes.length == 1)
-          if (String.class.equals(parameterTypes[0]))
+          if (CharSequence.class.equals(parameterTypes[0]))
             if (type2.isAssignableFrom(m.getReturnType()))
               return m;
       }
